@@ -1,5 +1,5 @@
 load('api_gpio.js');
-load('api_dataview.js');
+load('api_tm1650.js');
 load('api_sys.js');
 load('api_timer.js');
 load('api_math.js');
