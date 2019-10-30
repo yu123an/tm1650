@@ -1,22 +1,22 @@
 function i2c_start() {
 	GPIO.write(scl, 1);
-	Sys.usleep(10);
+	Sys.usleep(2);
 	GPIO.write(sda, 1);
-	Sys.usleep(10);
+	Sys.usleep(2);
 	GPIO.write(sda, 0);
-	Sys.usleep(10);
+	Sys.usleep(2);
 	GPIO.write(scl, 0);
-	Sys.usleep(10);
+	Sys.usleep(2);
 }
 function i2c_stop() {
 	GPIO.write(scl, 0);
-	Sys.usleep(10);
+	Sys.usleep(2);
 	GPIO.write(sda, 0);
-	Sys.usleep(10);
+	Sys.usleep(2);
 	GPIO.write(scl, 1);
-	Sys.usleep(10);
+	Sys.usleep(2);
 	GPIO.write(sda, 1);
-	Sys.usleep(10);
+	Sys.usleep(2);
 }
 function i2c_ack() {
 	let v = GPIO.read(sda);
@@ -26,40 +26,30 @@ function i2c_ack() {
 	}
 	GPIO.set_mode(sda, GPIO.MODE_OUTPUT);
 	GPIO.write(scl, 0);
-	Sys.usleep(10);
+	Sys.usleep(2);
 	GPIO.write(sda, 1);
-	Sys.usleep(10);
+	Sys.usleep(2);
 	GPIO.write(scl, 1);
-	Sys.usleep(10);
+	Sys.usleep(2);
 	GPIO.write(scl, 0);
-	Sys.usleep(10);
+	Sys.usleep(2);
 }
 function i2c_write1() {		//write bite 1
 	GPIO.set_mode(sda, GPIO.MODE_OUTPUT);
 	GPIO.write(sda, 1);
-	Sys.usleep(1);
 	GPIO.write(scl, 0);
-	Sys.usleep(1);
 	GPIO.write(scl, 1);
-	Sys.usleep(1);
 	GPIO.write(scl, 0);
-	Sys.usleep(1);
 	GPIO.write(sda, 0);
-	Sys.usleep(1);
 	GPIO.set_mode(sda, GPIO.MODE_INPUT);
 }
 function i2c_write0() {		//write bite 0
 	GPIO.set_mode(sda, GPIO.MODE_OUTPUT);
 	GPIO.write(sda, 0);
-	Sys.usleep(1);
 	GPIO.write(scl, 0);
-	Sys.usleep(1);
 	GPIO.write(scl, 1);
-	Sys.usleep(1);
 	GPIO.write(scl, 0);
-	Sys.usleep(1);
 	GPIO.write(sda, 0);
-	Sys.usleep(1);
 	GPIO.set_mode(sda, GPIO.MODE_INPUT);
 }
 //2loops
