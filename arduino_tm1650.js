@@ -7,7 +7,7 @@
 #define SCL_PIN 5
 TM1650 d;
 const char ssid[] = "Nexus"; 
-const char pass[] = "13033883439";
+const char pass[] = "13*******439";
 IPAddress timeServer(223,113,97,104);
 const int timeZone = 8;
 WiFiUDP Udp;
