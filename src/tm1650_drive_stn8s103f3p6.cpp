@@ -1,4 +1,3 @@
-
 #define scl PC6
 #define sda PC7
 void i2c_start() {
