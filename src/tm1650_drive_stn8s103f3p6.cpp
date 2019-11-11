@@ -1,5 +1,4 @@
-#define scl PC6
-#define sda PC7
+#include<tm1650_drive.h>
 void i2c_start() {
   digitalWrite(scl, 1);
   delayMicroseconds(2);
