@@ -74,14 +74,6 @@ void setup() {
   pinMode(scl, OUTPUT);
   pinMode(sda, OUTPUT);
   Wire_begin();
-  //delay(2000);
-  //Serial_println_s("open the windows");
-  Wire_beginTransmission(0x68);
-    Wire_write(0x00);
-    int vall = 50;
-    int d = (vall/10*16) + (vall%10);
-    Wire_write(d);
-    Wire_endTransmission();
 }
 void loop() {
   Wire_beginTransmission(0x68);
@@ -123,7 +115,7 @@ void loop() {
   i2c_Write(num[data2]);
   i2c_stop();
   i2c_start();
-  i2c_Write(0x8f);
+  i2c_Write(0x8a);
   i2c_stop();
   delay(500);
   i2c_start();
@@ -137,7 +129,7 @@ void loop() {
   i2c_Write(0);
   i2c_stop();
   i2c_start();
-  i2c_Write(0x8f);
+  i2c_Write(0x8a);
   i2c_stop();
   delay(500);
 }
