@@ -2,6 +2,7 @@
 #include <stm8s_iwdg.h>
 int scl = 0;    //PA1
 int sda = 1;    //PA2
+#define led 6
 //i2c drive
 void i2c_start() {
   digitalWrite(scl, 1);
@@ -58,12 +59,16 @@ uint8_t num[20] = {
   0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7f, 0x6f,
   0xbf, 0x86, 0xdb, 0xcf, 0xe6, 0xed, 0xfd, 0x87, 0xff, 0xef
 };
+uint8_t comm[8] = {
+  0x8f,0x8e,0x8d,0x8c,0x8b,0x8a,0x89,0x88
+};
 void setup() {
   pinMode(scl, OUTPUT);
   pinMode(sda, OUTPUT);
   Wire_begin();
 }
 void loop() {
+  int light = (analogRead(led) / 25);
   //get the time
   Wire_beginTransmission(0x68);
   Wire_write(0x00);
@@ -84,7 +89,6 @@ void loop() {
   int data2 = (dd % 16);
   int hour1 = (hh / 16);
   int hour2 = (hh % 16 );
-  int hour  = ((hour1 * 10) + hour2);
   int sss = ((ss1 * 10) + ss2);
   int minute1 = (mm / 16 );
   int minute2 = (mm % 16);
@@ -101,11 +105,7 @@ void loop() {
       }
       i2c_stop();
       i2c_start();
-      if (hour <= 17) {
-        i2c_Write(0x8f);
-      } else {
-        i2c_Write(0x88);
-      }
+      i2c_Write(comm[light]);
       i2c_stop();
       delay(80);
     }
@@ -129,11 +129,7 @@ void loop() {
     i2c_Write(64);
     i2c_stop();
     i2c_start();
-    if (hour <= 17) {
-      i2c_Write(0x8f);
-    } else {
-      i2c_Write(0x88);
-    }
+    i2c_Write(comm[light]);
     i2c_stop();
     delay(500);
     for (int j = 0; j <= 9; j++) {
@@ -153,11 +149,7 @@ void loop() {
       }
       i2c_stop();
       i2c_start();
-      if (hour <= 17) {
-        i2c_Write(0x8f);
-      } else {
-        i2c_Write(0x88);
-      }
+     i2c_Write(comm[light]);
       i2c_stop();
       delay(40);
     }
