@@ -63,7 +63,21 @@ void i2c_Write(uint8_t data) {
     data /= 2;
   }
 }
-
+void _display(uint8_t num1,uint8_t num2,uint8_t num3,uint8_t num4,uint8_t lig){
+  i2c_start();
+  i2c_Write(0x40);
+  i2c_stop();
+  i2c_start();
+  i2c_Write(0xc0);
+  i2c_Write(num1);
+  i2c_Write(num2);
+  i2c_Write(num3);
+  i2c_Write(num4);
+  i2c_stop();
+  i2c_start();
+  i2c_Write(lig);
+  i2c_stop();
+}
 // define the number
 uint8_t num[20] = {
   //0x00  0x01  0x02  0x03  0x04  0x05  0x06  0x07  0x08  0x09
@@ -119,24 +133,15 @@ void loop() {
   Wire_beginTransmission(0x68);
   Wire_write(0x00);
   Wire_endTransmission();
-  Wire_requestFrom(0x68, 19);
+  Wire_requestFrom(0x68, 18);
   int ss = Wire_read();
   int mm = Wire_read();
   int hh = Wire_read();
   int zz = Wire_read();
   int dd = Wire_read();
   int mo = Wire_read();
-  Wire_read();
-  Wire_read();
-  Wire_read();
-  Wire_read();
-  Wire_read();
-  Wire_read();
-  Wire_read();
-  Wire_read();
-  Wire_read();
-  Wire_read();
-  Wire_read();
+  for(int m = 0;m<=10;m++){
+  Wire_read();}
   int tmp = Wire_read();
   int tmp1 = tmp / 16;
   int tmp2 = tmp % 16;
@@ -164,65 +169,17 @@ void loop() {
   }
   // Serial_println_i(sss);
   //Serial_println_i(tmp1 * 10 + tmp2);
-  i2c_start();
-  i2c_Write(0x40);
-  i2c_stop();
-  i2c_start();
-  i2c_Write(0xc0);
-  i2c_Write(num[hour1]);
-  i2c_Write(num[hour2]);
-  i2c_Write(num[minute1]);
-  i2c_Write(num[minute2]);
-  i2c_stop();
-  i2c_start();
-  i2c_Write(comm[light]);
-  i2c_stop();
+  _display(num[hour1],num[hour2],num[minute1],num[minute2],comm[light]);
   delay(500);
-  i2c_start();
-  i2c_Write(0x40);
-  i2c_stop();
-  i2c_start();
-  i2c_Write(0xc0);
-  i2c_Write(num[hour1]);
-  i2c_Write(num[hour2 + 10]);
-  i2c_Write(num[minute1 + 10]);
-  i2c_Write(num[minute2]);
-  i2c_stop();
-  i2c_start();
-  i2c_Write(comm[light]);
-  i2c_stop();
+  _display(num[hour1],num[hour2 + 10],num[minute1 + 10],num[minute2],comm[light]);
   delay(480);
   if (sss == 58) {
     for (int ii = 0; ii <= 19; ii++) {
-      i2c_start();
-      i2c_Write(0x40);
-      i2c_stop();
-      i2c_start();
-      i2c_Write(0xc0);
-      for (int i = 0; i <= 3; i++) {
-        int a = random_minmax(0, 19);
-        i2c_Write(num[a]);
-      }
-      i2c_stop();
-      i2c_start();
-      i2c_Write(comm[light]);
-      i2c_stop();
+      _display(num[random_minmax(0,19)],num[random_minmax(0,19)],num[random_minmax(0,19)],num[random_minmax(0,19)],comm[light]);
       delay(98);
     }
   } else if ((sss % 10) == 0) {
-    i2c_start();
-    i2c_Write(0x40);
-    i2c_stop();
-    i2c_start();
-    i2c_Write(0xc0);
-    i2c_Write(num[tmp1]);
-    i2c_Write(num[tmp2]);
-    i2c_Write(B11100001);
-    i2c_Write(0);
-    i2c_stop();
-    i2c_start();
-    i2c_Write(comm[light]);
-    i2c_stop();
+    _display(num[tmp1],num[tmp2],B11100001,0,comm[light]);
     delay(3000);
   }
 }
