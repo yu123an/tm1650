@@ -1,3 +1,8 @@
+/*
+Stm8s
+tm1640
+ds3231
+*/
 #include <Wire.h>
 int scl = 1;    //PA1
 int sda = 0;    //PA2
@@ -67,6 +72,33 @@ void setup() {
   pinMode(sda, OUTPUT);
   Wire_begin();
   //Serial_begin(9600);
+  /* Wire_beginTransmission(0x68);
+    Wire_write(0x00);
+    Wire_write(bin2bcd(46));
+    
+    Wire_endTransmission();
+    Wire_beginTransmission(0x68);
+    Wire_write(0x01);
+    Wire_write(bin2bcd(2));
+     Wire_endTransmission();
+    
+    Wire_beginTransmission(0x68);
+    Wire_write(0x02);
+    Wire_write(bin2bcd(22));
+     Wire_endTransmission();
+    Wire_beginTransmission(0x68);
+    Wire_write(0x04);
+    Wire_write(bin2bcd(20));
+     Wire_endTransmission();
+    Wire_beginTransmission(0x68);
+    Wire_write(0x05);
+    Wire_write(bin2bcd(12));
+     Wire_endTransmission();
+    Wire_beginTransmission(0x68);
+    Wire_write(0x06);
+    Wire_write(bin2bcd(19));
+    Wire_endTransmission();
+    */
 }
 void loop() {
   int light = (analogRead(led) / 4);
