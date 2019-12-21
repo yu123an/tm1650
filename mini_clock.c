@@ -8,6 +8,12 @@ int scl = 1;    //PA1
 int sda = 0;    //PA2
 #define led PC4
 //i2c drive
+static uint8_t bcd2bin (uint8_t val) {
+  return val - 6 * (val >> 4);
+}
+static uint8_t bin2bcd (uint8_t val) {
+  return val + 6 * (val / 10);
+}
 void i2c_start() {
   digitalWrite(scl, 1);
   delayMicroseconds(2);
@@ -131,7 +137,15 @@ void loop() {
   int minute1 = (mm / 16 );
   int minute2 = (mm % 16);
 //  Serial_println_i(sss);
- 
+ if ((hour % 3) == 0){
+    if(minute == 23){
+       Wire_endTransmission();
+    Wire_beginTransmission(0x68);
+    Wire_write(0x01);
+    Wire_write(bin2bcd(24));
+     Wire_endTransmission();
+    }
+  }
     i2c_start();
     i2c_Write(0x40);
     i2c_stop();
